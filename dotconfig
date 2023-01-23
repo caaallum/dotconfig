@@ -1,0 +1,11 @@
+[settings]
+method=link
+
+[config]
+nvim
+bspwm
+
+[local]
+
+[home]
+.bashrc
