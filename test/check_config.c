@@ -29,14 +29,13 @@ END_TEST
 START_TEST(check_config_add_config) {
     config_t *config = config_new();
 
-    config_add(&config->config, "nvim");
-    config_add(&config->config, "bspwm");
-    config_add(&config->config, "alacritty");
+    stringarr_add(config->config, "nvim");
+    stringarr_add(config->config, "bspwm");
+    stringarr_add(config->config, "alacritty");
 
-    ck_assert_str_eq(config->config[0], "nvim");
-    ck_assert_str_eq(config->config[1], "bspwm");
-    ck_assert_str_eq(config->config[2], "alacritty");
-    ck_assert_ptr_null(config->config[3]);
+    ck_assert_str_eq(config->config->items[0], "nvim");
+    ck_assert_str_eq(config->config->items[1], "bspwm");
+    ck_assert_str_eq(config->config->items[2], "alacritty");
 
     config_free(config);
 }
@@ -67,7 +66,7 @@ main(void) {
     s = config_suite();
     sr = srunner_create(s);
 
-    srunner_run_all(sr, CK_NORMAL);
+    srunner_run_all(sr, CK_VERBOSE);
     number_failed = srunner_ntests_failed(sr);
     srunner_free(sr);
 
