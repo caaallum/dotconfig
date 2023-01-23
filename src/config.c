@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>
 
 config_t *
 config_new(void) {
@@ -9,30 +10,12 @@ config_new(void) {
     assert(config);
 
     config->method = NULL;
-    
-    config->config = malloc(sizeof(char *));
-    config->config[0] = NULL;
-    config->local = malloc(sizeof(char *));
-    config->local[0] = NULL;
-    config->home = malloc(sizeof(char *));
-    config->home[0] = NULL;
+
+    config->config = stringarr_new();
+    config->local = stringarr_new();
+    config->home = stringarr_new();
 
     return config;
-}
-
-void config_add(char ***list, const char *data) {
-    int size = 0;
-    char **l = *list;
-
-    while(l[size]) {
-        size++;
-    }
-
-        l = realloc(l, sizeof(char *) * (size + 1));
-        l[size] = malloc(sizeof(char) + strlen(data));
-        assert(l[size]);
-        strcpy(l[size], data);
-        l[size++] = NULL;
 }
 
 void 
