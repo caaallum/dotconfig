@@ -52,3 +52,9 @@ compile_commands.json
 .deps
 .cache/
 /config/
+*.o
+*.a
+*~
+.dirstamp
+libtool
+/config.h
