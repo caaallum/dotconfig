@@ -1,25 +1,14 @@
 #include <stdio.h>
-#include <ini.h>
 #include <glib.h>
 #include <stdlib.h>
 #include "../config.h"
 #include "config.h"
-
-static int handler(void *user_data, const char *section, const char *name, const char *value) {
-    config_t *config = user_data;
-    if (strcmp(section, "settings") == 0) {
-        if (strcmp(name, "method") == 0) {
-            config_set_method(config, value);
-        }
-    } else {
-    }
-
-    return 1;
-}
+#include "ini.h"
 
 int main(int argc, char **argv) {
     static gboolean display_version = FALSE;
     static gchar *config_dir = NULL;
+    static gboolean uninstall = FALSE;
     GError *error = NULL;
     GOptionContext *option_context;
     static GOptionEntry entries[] = {
@@ -27,6 +16,8 @@ int main(int argc, char **argv) {
           "Display version information", NULL },
         { "config-dir", 'C', 0, G_OPTION_ARG_STRING, &config_dir,
           "Set directory for config files", NULL },
+        { "uninstall", 'u', 0, G_OPTION_ARG_NONE, &uninstall,
+          "Uninstalling config files", NULL },
         { NULL, 0, 0, 0, NULL, NULL, NULL }
     };
 
@@ -44,35 +35,13 @@ int main(int argc, char **argv) {
         return EXIT_SUCCESS;
     }
 
-    if (argc > 1) {
-        if (strcmp(argv[1], "install") == 0) {
-            if (argc > 2) {
-                g_print("Installing: ");
-                for (int i = 2; i < argc; i++) {
-                    g_print("%s ", argv[i]);
-                }
-                g_print("\n");
-            } else {
-                g_print("Installing all\n");
-            }
-        } else if (strcmp(argv[1], "uninstall") == 0) {
-            g_print("Uninstalling: ");
-            for (int i = 2; i < argc; i++) {
-                g_print("%s ", argv[i]);
-            }
-            g_print("\n");
-        } else {
-            g_print("Installing all");
-        }
-    }
+    config_t *config = NULL;
 
-    config_t *config = config_new();
-    if (ini_parse("dotconfig", handler, config) < 0) {
-        printf("no dotconfig file found\n");
-        return 1;
+    if (config_dir) {
+        config = ini_load_config(config_dir);
+    } else {
+        config = ini_load_config(NULL);
     }
-
-    printf("Method: %s\n", config->method);
 
     config_free(config);
     return 0;
