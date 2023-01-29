@@ -14,9 +14,9 @@ AC_PROG_INSTALL
 LT_INIT
 
 PKG_CHECK_MODULES([CHECK], [check])
-PKG_CHECK_MODULES([GLIB], [glib-2.0])
+PKG_CHECK_MODULES([INIH], [inih])
 
-AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile test/Makefile])
+AC_CONFIG_HEADERS([dotconfig.h])
+AC_CONFIG_FILES([Makefile test/Makefile])
 
 AC_OUTPUT
