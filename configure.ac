@@ -14,7 +14,6 @@ AC_PROG_INSTALL
 LT_INIT
 
 PKG_CHECK_MODULES([CHECK], [check])
-PKG_CHECK_MODULES([INIH], [inih])
 
 AC_CONFIG_HEADERS([dotconfig.h])
 AC_CONFIG_FILES([Makefile test/Makefile])
